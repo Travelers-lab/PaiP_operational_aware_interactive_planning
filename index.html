@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PaiP: An Operational Aware Interactive Planner for Unknown Cabinet Environments</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #aa2a5bff;
+            --diffusion-purple: #5048aaff;
+            --robot-orange: #9554ffff;
+            --light-bg: #F8F9FA;
+        }
+        .custom-lead {
+        font-size: 1.0rem;    /* 默认1.25rem */
+        line-height: 1.0;      /* 默认1.5 */
+        letter-spacing: 0.03em;/* 字母间距 */
+        max-width: 100%;        /* 控制文本行宽 */
+        margin: 0 auto 1.5rem; /* 居中+下边距 */
+       }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+        }
+        
+        .hero-banner {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--diffusion-purple) 100%);
+            color: white;
+            padding: 4rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-banner::before {
+            content: "";
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><polygon fill="rgba(255,255,255,0.05)" points="0,100 100,0 100,100"/></svg>');
+            background-size: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 0;
+        }
+        
+        .nav-pills .nav-link.active {
+            background-color: var(--robot-orange);
+        }
+        
+        .feature-card {
+            border-left: 4px solid var(--primary-blue);
+            transition: transform 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .metric-badge {
+            background: var(--diffusion-purple);
+            color: white;
+            font-size: 1.1rem;
+        }
+        
+        .comparison-slider {
+            position: relative;
+            margin: 2rem 0;
+        }
+        
+        .comparison-slider img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+            overflow: hidden;
+            background: #000;
+            border-radius: 8px;
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .img-container {
+    transition: transform 0.2s;
+    background: #f8f9fa;
+}
+.img-container:hover {
+    transform: translateY(-2px);
+}
+.caption {
+    line-height: 1.2;
+    opacity: 0.9;
+}
+        .scrollable-illustration {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0,0,0,0.2) transparent;
+}
+.scrollable-illustration::-webkit-scrollbar {
+    height: 8px;
+}
+.scrollable-illustration::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.2);
+    border-radius: 4px;
+}
+#methodology {
+    --content-max-width: 1440px;  /* 控制最大显示宽度 */
+}
+
+#methodology .container-fluid {
+    max-width: var(--content-max-width);
+    margin: 0 auto;
+}
+
+#methodology .card-img-top {
+    padding: 0 2rem;  /* 图片两侧留白 */
+}
+@media (max-width: 768px) {
+    .abstract-container {
+        column-count: 1 !important;
+    }
+    .illustration-container {
+        margin-left: -1rem;
+        margin-right: -1rem;
+    }
+}
+        @media (max-width: 768px) {
+            .hero-banner {
+                padding: 2rem 0;
+            }
+        }
+
+    
+    </style>
+</head>
+<body>
+
+    <style>
+        /* 自定义标题样式 */
+        .hero-banner h1 {
+            font-size: 4.5rem !important;  /* 主标题字号放大 */
+            letter-spacing: -0.05em;      /* 字母间距微调 */
+            margin-bottom: 1.5rem !important;
+        }
+        
+        /* 作者列表强化 */
+        .author-list span {
+            font-size: 1.25rem;           /* 作者名字体放大 */
+            font-weight: 500;             /* 中等字重 */
+            padding: 0.35rem 0.75rem;     /* 增加呼吸空间 */
+            background: rgba(255,255,255,0.1); /* 浅色背景衬底 */
+            border-radius: 0.5rem;         /* 圆角效果 */
+            transition: transform 0.2s;    /* 悬互动效果 */
+        }
+        
+        .author-list span:hover {
+            transform: translateY(-2px);   /* 悬停微抬效果 */
+        }
+        
+        /* 适应移动端 */
+        @media (max-width: 768px) {
+            .hero-banner h1 {
+                font-size: 3rem !important;
+            }
+            .author-list span {
+                font-size: 1rem;
+                padding: 0.25rem 0.5rem;
+            }
+        }
+        </style>
+        
+        <section class="hero-banner text-center">
+            <div class="container position-relative" style="z-index: 1;">
+                <!-- 强化主标题 -->
+                <h1 class="display-2 fw-bold mb-4">INTERACTIVE MOTION PLANNING</h1>
+                <p class="lead mb-4 fs-3">PaiP: An Operational Aware Interactive Planner for Unknown Cabinet Environments</p>
+        
+                <!-- 层级化作者信息 -->
+                <div class="author-list mb-5">
+                    <div class="d-flex flex-wrap justify-content-center gap-4">  <!-- 增加间距 -->
+                        <span>Feng Luan</span>
+                        <span>Chengjin Wang</span>
+                        <span>Zhipeng Wang</span>
+                        <span>Jiguang Yue</span>
+                        <span class="text-warning">Yanmin Zhou<sup>*</sup></span>
+                        <span>He Bin</span>
+                    </div>
+                    <div class="affiliation mt-3 fs-5">  <!-- 机构信息放大 -->
+                        Tongji University &nbsp;|&nbsp; 
+                        <sup>*</sup>Corresponding Author: yanmin.zhou@tongji.edu.cn
+                    </div>
+                </div>
+                
+                <!-- 按钮组 -->
+                <div class="d-flex justify-content-center gap-3">
+                    <a href="https://www.sciencedirect.com/science/article/abs/pii/S0263224125007092" class="btn btn-light btn-lg px-4 py-2 rounded-pill">📄 Paper</a>
+                    
+                </div>
+            </div>
+        </section>
+
+    <section class="py-5">
+        <div class="container">
+            <!-- 摘要文本区块 -->
+            <div class="abstract-container mb-5">
+                <h2 class="display-5 mb-4 border-bottom pb-3">Abstract</h2>
+                <div class="fs-5 lh-base" style="column-count: 1; column-gap: 2rem">
+                    Automated measurement and three-dimensional reconstruction help robots to 
+                    understand complex environments. In situations of darkness or smoke, tactile 
+                    perception is pivotal.  Here, we propose a tactile exploration method to 
+                    estimate the shape of objects with Gaussian process implicit surfaces 
+                    (GPIS), especially considering the sparsity and unevenness nature
+                    of tactile data. A data enhancement method is employed to improve the 
+                    data integrity of tactile exploration for the implicit surface construction,
+                    which combines the external and internal  position information of the object.
+                    In addition, a practical sampling strategy is constructed to improve the 
+                    reconstruction efficiency limited by the nonuniform distribution of tactile 
+                    data. This strategy considers the local data sparsity, shape uncertainty, 
+                    local shape curvature, and exploration path cost for systematic and comprehensive 
+                    data collection. Simulation and experiment results show that our method improves 
+                    the model accuracy by 35.03% in the Hausdorff distance with the same sampling steps 
+                    compared to other methods. 
+                </div>
+            </div>
+    
+            <div class="illustration-container bg-light rounded-4 p-4 shadow-lg">
+                <!-- 响应式滚动容器 -->
+                <div class="scrollable-illustration" style="max-height: 70vh; overflow-y: auto">
+                    <img src="./static/figures/intro.png" 
+                         alt="Framework" 
+                         class="img-fluid w-auto d-block mx-auto"
+                         style="min-width: 1200px; transform: translateZ(0)"
+                         loading="lazy">
+                </div>
+            </div>
+            
+    
+               
+    
+            <!-- 关键点卡片（全宽） -->
+            <h3 class="display-5 mb-4 border-bottom pb-3">Key point</h3>
+            <div class="row mt-4">
+                <div class="col-md-6 col-lg-3 mb-3">
+                    <div class="feature-card p-3 h-100">
+                        <h5><span class="badge metric-badge me-2">1</span> Interactive motion planning</h5>
+                        
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 mb-3">
+                    <div class="feature-card p-3 h-100">
+                        <h5><span class="badge metric-badge me-2">2</span> Tactile percpetion</h5>
+                       
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 mb-3">
+                    <div class="feature-card p-3 h-100">
+                        <h5><span class="badge metric-badge me-2">3</span> Real time planning</h5>
+                        
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 mb-3">
+                    <div class="feature-card p-3 h-100">
+                        <h5><span class="badge metric-badge me-2">4</span> Multimodal perception</h5>
+                        
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Results -->
+    
+
+ <!-- Methodology -->
+<section class="py-5" id="methodology">
+    <div class="container">
+        <h2 class="text-center fw-bold mb-5">Framework</h2>
+        <div class="row justify-content-center">
+                <div class="col-12 col-xl-10 col-xxl-9">  <!-- 增加列宽层级 -->
+                <!-- 导航选项卡 -->
+                <div class="nav-tabs-wrapper">
+                    <ul class="nav nav-pills justify-content-center mb-4" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" data-bs-toggle="tab" 
+                                    data-bs-target="#overview" type="button">
+                                Overview
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" data-bs-toggle="tab" 
+                                    data-bs-target="#Baseline_comparison" type="button">
+                                Baseline comparison
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" data-bs-toggle="tab" 
+                                    data-bs-target="#Physical_testing" type="button">
+                                Physical environment testing
+                            </button>
+                        </li>
+
+
+                    </ul>
+                </div>
+
+                <!-- 内容面板 -->
+                <div class="tab-content">
+                    <!-- Overview 面板 -->
+                    <div class="tab-pane fade show active" id="overview">
+                        <div class="card border-0 shadow">
+                            <img src="./static/figures/framework.jpg" class="card-img-top" alt="System Overview">
+                            <div class="card-body">
+                                <p class="card-text">
+                                    A tactile-based real-time interactive motion planning framework for cabinet environments.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="Baseline_comparison">
+                        <div class="card border-0 shadow">
+                            <img src="./static/figures/webset_1.png" class="card-img-top" alt="Simulation1">
+                            <div class="card-body">
+                                <p class="card-text">
+                                    The simulation results for baseline comparison with simulation-based and model-based planning methods.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    
+                    <div class="tab-pane fade" id="Physical_testing">
+                        <div class="card border-0 shadow">
+                            <img src="./static/figures/webset_2.png" class="card-img-top" alt="Simulation2">
+                            <div class="card-body">
+                                <p class="card-text">
+                                    The testing demonstrates the framework's effectiveness in real-world scenarios.
+                                </p>
+                            </div>
+                        </div>
+                    </div>     
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+    
+
+
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center fw-bold mb-5">Experimental Demonstrations</h2>
+        
+        <div class="row justify-content-center">
+            <div class="col-lg-10 col-xl-8">
+                <div class="card border-0 shadow">
+                    <div class="card-header bg-white text-center py-3">
+                        <h4 class="card-title mb-0 text-primary">Adaptive Motion in Cabinet Scenarios</h4>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="ratio ratio-16x9">
+                            <video controls class="w-100 h-100" poster="./static/figures/video-poster.jpg" style="object-fit: cover;">
+                                <source src="./static/videos/video_1.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-light text-center py-3">
+                        <p class="mb-0 text-muted">
+                            Simulation and experimental demonstrations of PaiP in cabinet scenarios.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 可选的附加信息区域 -->
+        <div class="row mt-5">
+            <div class="col-md-8 mx-auto">
+                <div class="card border-0">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">About This Demonstration</h5>
+                        <p class="card-text">
+                            This video showcases the PaiP framework's adaptive motion capabilities in constrained cabinet environments, 
+                            highlighting its ability to handle limited free space and interact with various objects.
+                        </p>
+                        <a href="#" class="btn btn-outline-primary mt-2">
+                            <i class="bi bi-download me-2"></i>Download High-Resolution Video
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+    
+    <style>
+    /* 添加自定义样式 */
+    @media (min-width: 768px) {
+        .carousel-item {
+            min-height: 650px; /* 根据实际内容调整 */
+        }
+    }
+    </style>
+
+
+   
+    
+
+    <!-- Footer -->
+    <footer class="py-5 bg-dark text-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>INTERACTIVE MOTION PLANNING</h5>
+                    <p>PaiP: An Operational Aware Interactive Planner for Unknown Cabinet Environments</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Contact</h5>
+                    <ul class="list-unstyled">
+                        <li>Yanmin Zhou</li>
+                        <li>Shanghai Research Institute
+                            for Intelligent Autonomous Systems, Tongji University</li>
+                        <li>yanmin.zhou@tongji.edu.cn</li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white">GitHub Repository</a></li>
+                        <li><a href="#" class="text-white">Dataset Download</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4 bg-light">
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="small">© 2022 Shanghai Research Institute
+                        for Intelligent Autonomous Systems.
+
+                        </p>
+
+                </div>  
+                <div class="col-md-6 text-end">
+                    <a href="#" class="text-white">Privacy Policy</a> |
+                    <a href="#" class="text-white">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    </body>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
