@@ -201,11 +201,25 @@
                     </div>
                 </div>
                 
-                <!-- 按钮组 -->
+                <!-- 按钮组 
                 <div class="d-flex justify-content-center gap-3">
                     <a href="https://www.sciencedirect.com/science/article/abs/pii/S0263224125007092" class="btn btn-light btn-lg px-4 py-2 rounded-pill">📄 Paper</a>
                     
                 </div>
+                -->
+
+                <div class="btn-container">
+                    <a href="https://www.sciencedirect.com/science/article/abs/pii/S0263224125007092" class="btn btn-light btn-lg">
+                        <i class="fas fa-file-pdf icon"></i> Research Paper
+                    </a>
+                    
+                    <a href="https://github.com/Travelers-lab/operational_aware_planner.git" class="btn btn-dark btn-lg">
+                        <i class="fab fa-github icon"></i> GitHub Project
+                    </a>
+                </div>
+
+
+
             </div>
         </section>
 
@@ -215,21 +229,13 @@
             <div class="abstract-container mb-5">
                 <h2 class="display-5 mb-4 border-bottom pb-3">Abstract</h2>
                 <div class="fs-5 lh-base" style="column-count: 1; column-gap: 2rem">
-                    Automated measurement and three-dimensional reconstruction help robots to 
-                    understand complex environments. In situations of darkness or smoke, tactile 
-                    perception is pivotal.  Here, we propose a tactile exploration method to 
-                    estimate the shape of objects with Gaussian process implicit surfaces 
-                    (GPIS), especially considering the sparsity and unevenness nature
-                    of tactile data. A data enhancement method is employed to improve the 
-                    data integrity of tactile exploration for the implicit surface construction,
-                    which combines the external and internal  position information of the object.
-                    In addition, a practical sampling strategy is constructed to improve the 
-                    reconstruction efficiency limited by the nonuniform distribution of tactile 
-                    data. This strategy considers the local data sparsity, shape uncertainty, 
-                    local shape curvature, and exploration path cost for systematic and comprehensive 
-                    data collection. Simulation and experiment results show that our method improves 
-                    the model accuracy by 35.03% in the Hausdorff distance with the same sampling steps 
-                    compared to other methods. 
+                    Box/cabinet scenarios pose significant challenges for robotic motion due to visual occlusions and constrained free space caused by stacked objects. 
+                    Traditional collision-free trajectory planning methods often fail when no collision-free paths, and may even lead to catastrophic collisions caused by invisible objects. 
+                    To overcome these challenges, we propose an operational aware interactive motion planner (PaiP) a real-time closed-loop planning framework utilizing multimodal tactile perception. 
+                    This framework autonomously infers object interaction features by perceiving motion effects at interaction interfaces. 
+                    These interaction features are incorporated into grid maps to generate operational cost maps. Building upon this representation, 
+                    we extend sampling-based planning methods to interactive manipulation by optimizing both path cost and operational cost. 
+                    Experimental results demonstrate that PaiP achieves robust motion in narrow spaces. 
                 </div>
             </div>
     
